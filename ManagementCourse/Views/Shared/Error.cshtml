@@ -1,0 +1,24 @@
+﻿@model ErrorViewModel
+
+@{ 
+    Layout = null;
+}
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>RTC Course</title>
+    <link rel="icon" type="image/x-icon" href="~/assets/img/favicon/RtcIcon.ico" />
+    <link href="~/css/errorstyle.css" rel="stylesheet" />
+
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.3.0/snap.svg-min.js"></script>*@
+    <script src="~/assets/js/snap.svg-min.js"></script>
+</head>
+<body>
+    <div class="box">
+        <div>
+            close!
+        </div>
+        <p><span>@Model.RequestId </span> @Model.Message</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+﻿.current-question {
+    background-color: green;
+    color: white;
+}
+
+
+#exam_question_navigation{
+/*    max-height: 70px !important;
+    overflow:auto*/
+}
+
+
+.link-color{
+    color: blue;
+}
+.link-color:hover{
+    opacity: .9;
+}

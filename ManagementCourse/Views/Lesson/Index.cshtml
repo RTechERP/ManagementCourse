@@ -1,0 +1,102 @@
+﻿
+<h4 class="fw-bold" id="course_name_lesson">
+    Tên khoá học
+</h4>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body pt-1" id="lesson_content_header">
+                <div class="row m-0">
+                    <div class="col-sm-10 p-0">
+                        <h5 class="card-title m-0">Tên bài học</h5>
+                    </div>
+
+                    <div class="col-sm-2 p-0">
+                        <h6 class="card-subtitle text-success m-0 card-subtitle-status">Đã học</h6>
+                    </div>
+                </div>
+                <iframe src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen
+                        style="width:100%; height:700px;"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!--Danh sách bài học-->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header m-0 pb-1">
+                <h5 class="card-title m-0">
+                    <i class='bx bx-list-ul'></i>DANH SÁCH BÀI HỌC
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="demo-inline-spacing">
+                    <ul class="list-group" id="list_group_lesson">
+                        <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            <span class="badge bg-info me-2">1</span>
+                            <a href="#" class="text-dark" style="width: 100%;" onclick="return onClickLesson(3);">content</a>
+                            <input class="form-check-input" type="checkbox" value="">
+                        </li>
+
+                        <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center p-0">
+                            <ul class="nav nav-tabs nav-fill w-100" role="tablist">
+                                <li class="nav-item m-1">
+                                    <a href="/CourseExamResult/Index?courseId=0" class="btn btn-primary btn-sm w-100">Trắc nghiệm</a>
+                                </li>
+                                <li class="nav-item m-1">
+                                    <a href="/CourseExamResult/Index?courseId=0" class="btn btn-warning btn-sm w-100 text-dark">Thực hành</a>
+                                </li>
+                                <li class="nav-item m-1">
+                                    <a href="/CourseExamResult/Index?courseId=0" class="btn btn-info btn-sm w-100 text-dark">Bài tập</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body text-dark" id="lesson_content_body">
+                @*@Html.Raw(Model.LessonContent)*@
+            </div>
+
+            <div class="card-body border-top" id="lesson_content_pdf">
+                @*<h5>
+                        File PDF:
+                        <a href="/FilePDF/@Model.UrlPdf" target="_blank">@Model.UrlPdf</a>
+                    </h5>
+
+                    <iframe src="/FilePDF/@Model.UrlPdf" style="width:100%; height:700px;"></iframe>*@
+            </div>
+
+            <div class="card-body border-top" id="download_file_lesson_container">
+                <h5>Download tài liệu đính kèm:</h5>
+                @*<form action="/Lesson/GetBlobDownload" method="get">
+                        <input type="hidden" class="form-control" name="file_name" value="6.pdf">
+                        <button type="submit" class="btn btn-success m-0 p-0"
+                                style="color:#000;background-color:transparent;border-color:transparent;box-shadow:none; text-decoration:underline;">
+                            tải file
+                        </button>
+                    </form>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    var courseId = @ViewBag.CourseID;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const catalogId = urlParams.get('catalogId');
+</script>
+
+
+<script src="~/js/lesson_index.js" asp-append-version="true"></script>

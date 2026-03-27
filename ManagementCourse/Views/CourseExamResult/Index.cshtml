@@ -1,0 +1,127 @@
+﻿<link href="~/css/course_exam_result.css" rel="stylesheet" />
+<div class="mb-2">
+    <h4 class="fw-bold mb-2">Bài thi trắc nghiệm khóa học @ViewBag.CourseName</h4>
+    <button class="btn btn-primary btn-sm"
+            onclick="return onStart(1, 0);">
+        <i class='bx bx-plus-medical'></i> Làm bài thi
+    </button>
+</div>
+
+<div class="card">
+    <div class="card-body p-2">
+        <div class="table-responsive text-nowrap">
+            <table class="table table-hover table-bordered">
+                <thead class="bg-info text-center">
+                    <tr>
+                        <th class="text-white">Khoá học</th>
+                        <th class="text-white">Đề thi</th>
+                        <th class="text-white">Số câu hỏi</th>
+                        <th class="text-white">Số câu đúng</th>
+                        <th class="text-white">Số câu sai</th>
+                        <th class="text-white">Điểm</th>
+                        <th class="text-white">Thời gian bắt đầu</th>
+                        <th class="text-white">Thời gian kết thúc</th>
+                    </tr>
+                </thead>
+                <tbody class="table-border-bottom-0" id="tbody_exam_result">
+                    @*<tr>
+                        <td class="p-1">
+                        <a href="#" onclick="return onStart(false, 0);">Làm lại</a>
+                        </td>
+                        <td class="p-1">Khó học</td>
+                        <td class="p-1">Đề</td>
+                        <td class="text-end p-1">Số câu hỏi</td>
+                        <td class="text-end p-1">Đúng</td>
+                        <td class="text-end p-1">sai</td>
+                        <td class="text-end p-1">Điểm</td>
+                        <td class="text-end p-1">Ngày</td>
+                        </tr>*@
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modal_exam_test" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content" style="background-color: #eceef1;">
+            <div class="modal-header py-1 row" style="position: relative;">
+                <h5 class="modal-title fs-4 text-uppercase col-12 text-center" id="titlePDF">Bài thi khóa học @ViewBag.CourseName</h5>
+                <button type="button" class="btn-close m-0" onclick="return onClose();" style="position: absolute; right: 1.5%;"></button>
+            </div>
+
+
+            <!--Khu vực hiển thị nội dung câu hỏi - đáp án-->
+            <div class="modal-body p-0 px-2">
+                <div class="row m-0 gy-2">
+                    <div class="col-12 p-0">
+                        <div class="card">
+                            <div class="row p-2 m-0">
+                                <!--Thời gian và nộp bài-->
+                                <div class="col-sm-3 col-4">
+                                    <h5 class="modal-title text-uppercase text-danger">
+                                        <i class="bx bx-alarm" style="font-size: 32px;"></i> <span class="fw-bold mt-2" id="test_time"></span>
+                                    </h5>
+                                </div>
+
+                                <div class="col-sm-9 col-8 text-end">
+                                    <button class="btn btn-success btn-sm fw-bold" onclick="return onSubmit();" style="background-color: #198754 !important; border-color: #198754 !important;">Nộp bài</button>
+                                </div>
+                                <!--End-->
+
+                                <div class="row m-0 container-content">
+                                    <div class="col-sm-12" id="container_question_content">
+                                        <h5 class="fw-bold m-0 p-0 pb-1 col-12">Câu <span id="current_question">1</span>/<span id="total_question_exam">40</span>:</h5>
+                                        <div class="col-12 pe-0" id="exam_question_content">
+                                        </div>
+
+                                        <div class="pb-3 col-12">
+                                            <h6 class="text-muted p-0 mb-2">Câu trả lời:</h6>
+                                            <div class="card-body p-0" id="exam_content_answer">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-12 p-0" id="image_question_container"></div>
+                                </div>
+
+                                <div class="col-12">
+                                    <!--Khu vực hiển thị nút action-->
+                                    <div class="p-0 py-2 d-flex justify-content-start m-0 ps-3" id="btn_group_action_active">
+                                        <button class="btn btn-primary btn-sm me-1" title="Previous" onclick="return onPrevios();">
+                                            <i class='bx bxs-chevron-left'></i>
+                                        </button>
+                                        <button class="btn btn-warning btn-sm text-dark fw-bold me-1" onclick="return onSave();">Lưu</button>
+                                        <button class="btn btn-primary btn-sm mx-1" title="Next" onclick="return onNext();">
+                                            <i class='bx bxs-chevron-right'></i>
+                                        </button>
+                                    </div>
+                                    <h6 class="text-muted m-0 p-0 mb-2 mt">Danh sách câu hỏi:</h6>
+                                    <div id="exam_question_navigation">
+                                        @*  @for (int i = 1; i <= 70; i++)
+                                            {
+                                            <span class="question-number m-1 border border-dark" id="@i">@i</span>
+                                            } *@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var courseId = @ViewBag.CourseId;
+        var courseExamId = @ViewBag.CourseExamID;
+        var testTime = @ViewBag.TestTime;
+        //var courseExamID = @ViewBag.ExamType;
+    </script>
+}
+
+<script src="~/js/course_exam_result.js" asp-append-version="true"></script>

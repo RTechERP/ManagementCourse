@@ -1,0 +1,110 @@
+﻿
+<link href="~/css/style.css" rel="stylesheet" />
+
+<style>
+    #tbody_history_result tr:focus {
+        background-color: navajowhite !important;
+    }
+</style>
+
+<div class="mb-2 row pe-3 ps-2">
+    <div class="col-12 col-sm-9">
+        <h4 class="fw-bold mb-2">Bài thi bài tập @ViewBag.TableName @ViewBag.CourseName</h4>
+    </div>
+
+    <button class="btn btn-success btn-sm col-12 col-sm-3" style="color: black" onclick="DoExam()"><i class='bx bxs-pen'></i>Làm bài</button>
+</div>
+<div class="card">
+    <div class="card-body p-2">
+        <div class="row">
+            <div class="col-12 col-sm-6">
+                <h5 class="mb-0">Lịch sử thi</h5>
+                <div class="table-responsive text-nowrap mb-1">
+                    <table class="table table-hover table-bordered">
+                        <thead class="bg-info text-center">
+                            <tr>
+                                <th class="text-white">Thời gian thi</th>
+                                <th class="text-white">Điểm cần đạt</th>
+                                <th class="text-white">Điểm thi</th>
+                                <th class="text-white">Kết quả</th>
+
+                            </tr>
+                        </thead>
+                        <tbody class="table-border-bottom-0" id="tbody_history_result">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6">
+                <h5 class="mb-0">Kết quả thi</h5>
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered">
+                        <thead class="bg-info text-center">
+                            <tr>
+                                <th class="text-white" style="width: 5%">STT</th>
+                                <th class="text-white" style="width: 40%">Câu hỏi</th>
+                                <th class="text-white" style="width: 5%">Điểm</th>
+                                <th class="text-white" style="width: 40%">Ghi chú</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-border-bottom-0 text-wrap" id="tbody_practice_result">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="modal_exam_practice_test" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content" style="background-color: #eceef1;">
+            <div class="modal-body p-3 px-2">
+                <div class="mb-2 row pe-3 ps-2">
+                    <div class="col-12 col-sm-10">
+                        <h4 class="fw-bold col-12 col-sm-9 mb-0">Bài thi bài tập @ViewBag.TableName @ViewBag.CourseName</h4>
+                        <p class="mb-0 pb-0" id="time-exam"></p>
+                    </div>
+
+                    <button class="btn btn-success btn-sm col-12 col-sm-2" onclick=" onSubmit()" style="color: black; font-size:16px">
+                        <i class='bx bx-check' style="font-size:24px"></i> Hoàn thành
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-body p-2">
+                        <div class="table-responsive text-wrap">
+                            <table class="table table-hover table-bordered">
+                                <thead class="bg-info text-center">
+                                    <tr>
+                                        <th class="text-white" style="width: 5%">STT</th>
+                                        <th class="text-white">Câu hỏi</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0" id="tbody_exam_result">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        var courseId = @ViewBag.CourseId;
+        var courseExamId = @ViewBag.CourseExamID;
+        var testTime = @ViewBag.TestTime;
+      //  var examResultID = @ViewBag.ExamResultID;
+    </script>
+}
+
+<script src="~/js/course_exam_result_exercise.js"></script>

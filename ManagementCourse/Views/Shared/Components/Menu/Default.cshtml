@@ -1,0 +1,212 @@
+﻿@using Microsoft.AspNetCore.Http;
+@{
+    var userGroupID = Context.Session.GetInt32("UserGroupID");
+    var deparmentID = Context.Session.GetInt32("department_id");
+    var kpiPositionTypeID = Context.Session.GetInt32("KPIPositionTypeID");
+}
+
+@model Tuple<List<Department>, List<CourseCatalog>,bool>
+
+<style>
+    .menu-sub > .menu-item > .menu-sub > .menu-item > a::before {
+        left: 36px !important;
+    }
+</style>
+
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme ">
+    <div class="app-brand demo">
+        <a asp-controller="Home" asp-action="Index" class="app-brand-link">
+            <!-- Logo để đây -->
+            <img src="~/assets/img/logo-RTC-2023-1200-banchuan.png" alt="">
+            @*<span class="app-brand-text demo menu-text fw-bolder text-uppercase ms-2">RTC</span>*@
+        </a>
+
+        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+            <i class="bx bx-chevron-left bx-sm align-middle"></i>
+        </a>
+    </div>
+
+    <div class="menu-inner-shadow"></div>
+
+    @if (Model.Item3)
+    {
+        <ul class="menu-inner py-1" id="menu_inner">
+            <!--KHOÁ HỌC BẮT BUỘC-->
+            @*<li class="menu-item" id="menu_item_must_have">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons bx bxs-book-open"></i>
+                    <div data-i18n="Misc">BẮT BUỘC</div>
+                </a>
+                <ul class="menu-sub">
+                    <li class="menu-item open">
+                        <a asp-controller="Home" asp-action="Index" asp-route-departmentID="0" asp-route-catalogType="1" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                            <div>Khóa học bắt buộc</div>
+                        </a>
+                    </li>
+                </ul>
+            </li>*@
+            <!--KHOÁ HỌC CƠ BẢN-->
+            <li class="menu-item" id="menu_item_basic">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons bx bxs-book-open"></i>
+                    <div data-i18n="Misc">CƠ BẢN</div>
+                </a>
+                <ul class="menu-sub">
+
+                    @foreach (var item in Model.Item1)
+                    {
+                        <li class="menu-item open">
+                            @*<a asp-controller="Home" asp-action="Index" asp-route-departmentID="@item.Id" asp-route-catalogType="1" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                                <div>@item.Name</div>
+                            </a>*@
+                            <ul class="menu-sub">
+                                @foreach (var item2 in Model.Item2.Where(x => x.DepartmentId == item.Id && x.CatalogType == 1))
+                                {
+                                    <li class="menu-item">
+                                        <a class="menu-link accesskey" id="menu_link_items_@item2.Id"
+                                           asp-controller="Home"
+                                           asp-action="Index"
+                                           asp-route-departmentID="@item.Id"
+                                           asp-route-courseCatalogID="@item2.Id"
+                                           asp-route-catalogType="@item2.CatalogType"
+                                           style="cursor:pointer;">
+                                            @item2.Name
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </li>
+
+            <!--KHOÁ HỌC TRAINING-->
+            @*<li class="menu-item" id="menu_item_advance">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons bx bxs-comment-edit"></i>
+                    <div data-i18n="Misc">NÂNG CAO</div>
+                </a>
+                <ul class="menu-sub">
+                    @foreach (var item in Model.Item1)
+                    {
+                        <li class="menu-item open">
+                            <a asp-controller="Home" asp-action="Index" asp-route-departmentID="@item.Id" asp-route-catalogType="2" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                                <div>@item.Name</div>
+                            </a>
+                            <ul class="menu-sub">
+                                @foreach (var item2 in Model.Item2.Where(x => x.DepartmentId == item.Id && x.CatalogType == 2))
+                                {
+                                    <li class="menu-item">
+                                        <a class="menu-link accesskey" id="menu_link_items_@item2.Id"
+                                           asp-controller="Home"
+                                           asp-action="Index"
+                                           asp-route-departmentID="@item.Id"
+                                           asp-route-courseCatalogID="@item2.Id"
+                                           asp-route-catalogType="2"
+                                           style="cursor:pointer;">
+                                            @item2.Name
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </li>*@
+        </ul>
+    }
+    else
+    {
+        <ul class="menu-inner py-1" id="menu_inner">
+            <!--KHOÁ HỌC BẮT BUỘC-->
+            <li class="menu-item" id="menu_item_must_have">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons bx bxs-book-open"></i>
+                    <div data-i18n="Misc">BẮT BUỘC</div>
+                </a>
+                <ul class="menu-sub">
+                    <li class="menu-item open">
+                        <a asp-controller="Home" asp-action="Index" asp-route-departmentID="0" asp-route-catalogType="1" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                            <div>Khóa học bắt buộc</div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!--KHOÁ HỌC CƠ BẢN-->
+            <li class="menu-item" id="menu_item_basic">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons bx bxs-book-open"></i>
+                    <div data-i18n="Misc">CƠ BẢN</div>
+                </a>
+                <ul class="menu-sub">
+
+                    @foreach (var item in Model.Item1)
+                    {
+                        <li class="menu-item open">
+                            <a asp-controller="Home" asp-action="Index" asp-route-departmentID="@item.Id" asp-route-catalogType="1" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                                <div>@item.Name</div>
+                            </a>
+                            <ul class="menu-sub">
+                                @foreach (var item2 in Model.Item2.Where(x => x.DepartmentId == item.Id && x.CatalogType == 1))
+                                {
+                                    <li class="menu-item">
+                                        <a class="menu-link accesskey" id="menu_link_items_@item2.Id"
+                                           asp-controller="Home"
+                                           asp-action="Index"
+                                           asp-route-departmentID="@item.Id"
+                                           asp-route-courseCatalogID="@item2.Id"
+                                           asp-route-catalogType="@item2.CatalogType"
+                                           style="cursor:pointer;">
+                                            @item2.Name
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </li>
+
+            <!--KHOÁ HỌC TRAINING-->
+            <li class="menu-item" id="menu_item_advance">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons bx bxs-comment-edit"></i>
+                    <div data-i18n="Misc">NÂNG CAO</div>
+                </a>
+                <ul class="menu-sub">
+                    @foreach (var item in Model.Item1)
+                    {
+                        <li class="menu-item open">
+                            <a asp-controller="Home" asp-action="Index" asp-route-departmentID="@item.Id" asp-route-catalogType="2" class="menu-link">
+                                <i class="menu-icon tf-icons bx bx-dock-top"></i>
+                                <div>@item.Name</div>
+                            </a>
+                            <ul class="menu-sub">
+                                @foreach (var item2 in Model.Item2.Where(x => x.DepartmentId == item.Id && x.CatalogType == 2))
+                                {
+                                    <li class="menu-item">
+                                        <a class="menu-link accesskey" id="menu_link_items_@item2.Id"
+                                           asp-controller="Home"
+                                           asp-action="Index"
+                                           asp-route-departmentID="@item.Id"
+                                           asp-route-courseCatalogID="@item2.Id"
+                                           asp-route-catalogType="2"
+                                           style="cursor:pointer;">
+                                            @item2.Name
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </li>
+        </ul>
+    }
+
+</aside>

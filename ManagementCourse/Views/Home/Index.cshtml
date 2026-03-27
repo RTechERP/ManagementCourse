@@ -1,0 +1,123 @@
+﻿@using Microsoft.AspNetCore.Http;
+@model List<ManagementCourse.Models.DTO.CourseDTO>;
+@using ManagementCourse.Models.Context;
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+@{
+    var userGroupID = Context.Session.GetInt32("UserGroupID");
+    RTCContext context = new RTCContext();
+}
+
+<style>
+    .swal2-container {
+        z-index: 2000 !important;
+    }
+</style>
+
+<div class="text-center mb-2">
+    <span class="display-5 text-dark text-uppercase" id="title_course">
+        @ViewBag.TitleCourse
+    </span>
+</div>
+
+
+@*<div>@ViewBag.CoureCatalogID</div>*@
+<div class="row m-0" id="list_course_items">
+    @foreach (var item in Model)
+    {
+        @*if (userGroupID <= 0)
+        {
+            <div class="text-center mb-0">
+                <span class="display-6 text-dark text-uppercase">
+                    Bạn không có quyền xem khoá học!
+                </span>
+            </div>
+            return;
+        }*@
+
+        <div class="card mb-3 @(item.Status == 0 ? "bg-secondary":"")">
+            <div class="card-body p-2">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <p class="m-0 fw-bold @(item.DeleteFlag ? "text-success":"text-danger")">@item.DeleteFlagText</p>
+                        <h5 class="card-title m-0 text-uppercase fw-bold">
+                            @*<a href="/Lesson/Index?courseId=@item.ID&catalogId=@item.CatalogID" class="px-0">@item.NameCourse</a>*@
+                            @if (item.Status == 1)
+                            {
+                                <a href="/Lesson/Index?courseId=@item.ID&catalogId=@item.CatalogID" class="px-0">@item.NameCourse</a>
+                            }
+                            else
+                            {
+                                @item.NameCourse
+                            }
+                        </h5>
+                        <p class="m-0 text-dark">@item.Instructor</p>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="demo-inline-spacing m-0">
+                            <ul class="list-group m-0">
+                                <li class="list-group-item d-flex justify-content-start align-items-center p-0 border-0">
+                                    <p class="m-0 text-dark">Bài học: <span>@item.TotalHistoryLession / @item.NumberLesson</span></p>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-start align-items-center p-0 border-0">
+                                    <p class="m-0 text-dark">Thời gian học (ngày): <span>@item.TotalTimeLearned.ToString("n2") / @item.LeadTime.ToString("n2")</span></p>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-start align-items-center p-0 border-0">
+                                    <p class="m-0 pe-1 text-dark">Điểm thi:</p>
+                                    @foreach (var c in context.CourseExams.Where(x => x.CourseId == item.ID))
+                                    {
+                                        if (c.ExamType == 1)
+                                        {
+                                            <button type="button" class="btn btn-primary btn-sm shadow-none ms-1" title="Trắc nghiệm">
+                                                @item.QuizPoints / @item.GoalMultiChoice
+                                            </button>
+                                        }
+                                        else if (c.ExamType == 2)
+                                        {
+                                            <button class="btn btn-warning  btn-sm text-dark shadow-none ms-1" title="Thực hành">
+                                                @item.PracticePoints / @item.GoalPractice
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-info  btn-sm text-dark shadow-none ms-1" title="Bài tập">
+                                                @item.ExcercisePoints / @item.GoalExercise
+                                            </button>
+                                        }
+                                    }
+                                </li>
+                                <li class="list-group-item d-flex justify-content-start align-items-center p-0 border-0">
+                                    <p class="m-0 text-dark">Đánh giá: <span class="@(item.Evaluate == 1 ? "text-success": (item.Status == 1 ?"text-danger":"text-dark"))">@item.EvaluateText</span></p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+                @*<a href="/Lesson/Index?courseId=@item.ID&catalogId=@item.CatalogID" class="btn btn-primary btn-sm">Xem chi tiết</a>*@
+                @if (item.Status == 1)
+                {
+                    <a href="/Lesson/Index?courseId=@item.ID&catalogId=@item.CatalogID" class="btn btn-primary btn-sm">Xem chi tiết</a>
+                }
+                else
+                {
+                    <button class="btn btn-primary btn-sm" disabled>Xem chi tiết</button>
+                }
+
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    courseCatalogID = @ViewBag.CoureCatalogID;
+    departmentID = @ViewBag.DepartmentID;
+    catalogType = @ViewBag.CatalogType;
+</script>
+
+<script src="~/js/home.js" asp-append-version="true"></script>

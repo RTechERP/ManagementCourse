@@ -1,0 +1,45 @@
+﻿@model ManagementCourse.Models.ViewModel.CourseExamViewModel
+
+<h4 class="fw-bold">Bài thi khóa học @Model.CourseExam.NameExam</h4>
+
+<div class="row">
+    <div class="col-md-8 mb-3">
+        <div class="card h-100">
+            <div class="card-body py-1">
+                <div id="question-container">
+                    <!--Render nội dung và đáp án-->
+                </div>
+                <input value="" id="question-id-0" style="display: none;">
+            </div>
+            <div class="card-footer py-1 border-top row m-0">
+                <div class="col-md-6 p-0">
+                    <button class="btn btn-info btn-sm" id="prev-button">Prev</button>
+                    <button class="btn btn-primary btn-sm" id="next-button">Next</button>
+                </div>
+                <div class="col-md-6 p-0 d-flex justify-content-end">
+                    <button class="btn btn-success btn-sm" id="btn-submit-exam">Nộp bài</button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <div id="question-navigation">
+                    <!--Render số thứ tự câu hỏi-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var resultID = "@Model.CourseExamResult.Id";
+        var courseExamID = "@Model.CourseExam.Id";
+    </script>
+
+}
+
+<script src="~/js/courseexam_index.js" asp-append-version="true"></script>
